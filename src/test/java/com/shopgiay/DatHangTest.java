@@ -1,5 +1,6 @@
 package com.shopgiay;
 
+import com.sat.utils.Constant;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import com.sat.utils.BasicTest;
@@ -13,7 +14,7 @@ public class DatHangTest extends BasicTest{
     @Test(enabled = true, priority = 0)
     public void DH_01() throws InterruptedException{    
         System.out.println("1. Dăng nhập vào trang web");
-        driver.get("http://localhost:8080/Shopgiay/login");
+        driver.get(Constant.LOGIN_URL);
 
         WebElement iptUserNameLogin = driver.findElement(By.id("username"));
         iptUserNameLogin.clear();
@@ -66,7 +67,7 @@ public class DatHangTest extends BasicTest{
     @Test(enabled = true, priority = 2)
     public void DH_02() throws InterruptedException{    
         System.out.println("1. Dăng nhập vào trang web");
-        driver.get("http://localhost:8080/Shopgiay/login");
+        driver.get(Constant.LOGIN_URL);
 
         WebElement iptUserNameLogin = driver.findElement(By.id("username"));
         iptUserNameLogin.clear();

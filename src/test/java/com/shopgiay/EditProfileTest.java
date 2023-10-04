@@ -1,5 +1,6 @@
 package com.shopgiay;
 
+import com.sat.utils.Constant;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import com.sat.utils.BasicTest;
@@ -17,7 +18,7 @@ public class EditProfileTest extends BasicTest{
 
         System.out.println("1. Đăng nhập vào website bằng account: username (ducn), password (1)");
 
-        driver.get("http://localhost:8080/Shopgiay/login");
+        driver.get(Constant.LOGIN_URL);
 
         WebElement iptUserNameLogin = driver.findElement(By.id("username"));
         iptUserNameLogin.clear();
@@ -56,7 +57,7 @@ public class EditProfileTest extends BasicTest{
 
         System.out.println("1. Đăng nhập vào website bằng account: username (ducn), password (1)");
 
-        driver.get("http://localhost:8080/Shopgiay/login");
+        driver.get(Constant.LOGIN_URL);
 
         WebElement iptUserNameLogin = driver.findElement(By.id("username"));
         iptUserNameLogin.clear();
@@ -94,7 +95,7 @@ public class EditProfileTest extends BasicTest{
 
         System.out.println("1. Đăng nhập vào website bằng account: username (ducn), password (1)");
 
-        driver.get("http://localhost:8080/Shopgiay/login");
+        driver.get(Constant.LOGIN_URL);
 
         WebElement iptUserNameLogin = driver.findElement(By.id("username"));
         iptUserNameLogin.clear();
@@ -132,7 +133,7 @@ public class EditProfileTest extends BasicTest{
 
         System.out.println("1. Đăng nhập vào website bằng account: username (ducn), password (1)");
 
-        driver.get("http://localhost:8080/Shopgiay/login");
+        driver.get(Constant.LOGIN_URL);
 
         WebElement iptUserNameLogin = driver.findElement(By.id("username"));
         iptUserNameLogin.clear();
@@ -170,7 +171,7 @@ public class EditProfileTest extends BasicTest{
 
         System.out.println("1. Đăng nhập vào website bằng account: username (ducn), password (1)");
 
-        driver.get("http://localhost:8080/Shopgiay/login");
+        driver.get(Constant.LOGIN_URL);
 
         WebElement iptUserNameLogin = driver.findElement(By.id("username"));
         iptUserNameLogin.clear();
@@ -208,7 +209,7 @@ public class EditProfileTest extends BasicTest{
 
         System.out.println("1. Đăng nhập vào website bằng account: username (ducn), password (1)");
 
-        driver.get("http://localhost:8080/Shopgiay/login");
+        driver.get(Constant.LOGIN_URL);
 
         WebElement iptUserNameLogin = driver.findElement(By.id("username"));
         iptUserNameLogin.clear();

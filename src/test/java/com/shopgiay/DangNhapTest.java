@@ -1,5 +1,6 @@
 package com.shopgiay;
 
+import com.sat.utils.Constant;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import com.sat.utils.BasicTest;
@@ -15,7 +16,7 @@ public class DangNhapTest extends BasicTest{
         String validPassword = "111";
 
         System.out.println("Open to Login page");
-        driver.get("http://localhost:8080/Shopgiay/login");
+        driver.get(Constant.LOGIN_URL);
         Thread.sleep(5000);
 
         System.out.println("Enter valid username & password");
@@ -42,7 +43,7 @@ public class DangNhapTest extends BasicTest{
         String password = "111";
 
         System.out.println("Open to Login page");
-        driver.get("http://localhost:8080/Shopgiay/login");
+        driver.get(Constant.LOGIN_URL);
         Thread.sleep(5000);
 
         System.out.println("Enter valid username & password");
@@ -69,7 +70,7 @@ public class DangNhapTest extends BasicTest{
         String password = "222";
 
         System.out.println("Open to Login page");
-        driver.get("http://localhost:8080/Shopgiay/login");
+        driver.get(Constant.LOGIN_URL);
         Thread.sleep(5000);
 
         System.out.println("Enter valid username & password");
@@ -95,7 +96,7 @@ public class DangNhapTest extends BasicTest{
         String password = "";
 
         System.out.println("Open to Login page");
-        driver.get("http://localhost:8080/Shopgiay/login");
+        driver.get(Constant.LOGIN_URL);
         Thread.sleep(5000);
 
         System.out.println("Enter valid username & password");
@@ -121,7 +122,7 @@ public class DangNhapTest extends BasicTest{
         String password = "";
 
         System.out.println("Open to Login page");
-        driver.get("http://localhost:8080/Shopgiay/login");
+        driver.get(Constant.LOGIN_URL);
         Thread.sleep(5000);
 
         System.out.println("Enter valid username & password");
@@ -147,7 +148,7 @@ public class DangNhapTest extends BasicTest{
         String password = "111";
 
         System.out.println("Open to Login page");
-        driver.get("http://localhost:8080/Shopgiay/login");
+        driver.get(Constant.LOGIN_URL);
         Thread.sleep(5000);
 
         System.out.println("Enter valid username & password");
