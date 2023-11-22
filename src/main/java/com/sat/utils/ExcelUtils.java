@@ -122,14 +122,14 @@ public class ExcelUtils {
 
     public void copyExcel(String inputFilePath, String outputFilePath){
         try { 
-            //Provide the Path of excel file which we want to copy
+            // Provide the Path of Excel file which we want to copy
             File inputFile=new File(inputFilePath);
             FileInputStream fis=new FileInputStream(inputFile);
             XSSFWorkbook inputWorkbook=new XSSFWorkbook(fis);
             int inputSheetCount=inputWorkbook.getNumberOfSheets();
             System.out.println("Input sheetCount: "+inputSheetCount);
             
-            // Provide the path of excel file in which we wanted to copy the data
+            // Provide the path of Excel file in which we wanted to copy the data
             //String exportFilePath = "target/report/TestData_Export.xlsx";
             String exportFilePath = outputFilePath;
             File outputFile=new File(exportFilePath);

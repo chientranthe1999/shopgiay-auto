@@ -3,104 +3,132 @@ package com.shopgiay;
 import org.testng.annotations.Test;
 import com.sat.utils.BasicTest;
 import org.testng.Assert;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import com.github.javafaker.Faker;
-import java.util.Locale;
 import java.io.File;
 import org.openqa.selenium.JavascriptExecutor;
 import com.sat.utils.Constant;
 
-public class DangKyTest extends BasicTest{
-    Faker faker = new Faker(new Locale("vi"));
-    
-    @Test(enabled  = true, priority=0)
-    public void DK01_ValidRegister() throws InterruptedException{
-
-        //Test data
-        String username = faker.name().username();
-        String fullName = faker.name().fullName();
-        String email = faker.internet().emailAddress();
-        String phone = faker.phoneNumber().phoneNumber();
-        String password =faker.internet().password();
-        String address =faker.address().streetAddress();
-        
-        System.out.println("Open Register page");
+public class DangKyTest extends BasicTest {
+    public void initLoginPage() {
+        System.out.println("Open register page: " + Constant.REGISTER_URL);
         driver.get(Constant.REGISTER_URL);
-        Thread.sleep(5000);
+    }
 
-        System.out.println("Fill valid details: username, full name, email, password, re password, address");
-        WebElement inputUserName = driver.findElement(By.id("username"));
-        inputUserName.clear();
-        inputUserName.sendKeys(username);
+    public String enterUserName() {
+        String username = faker.name().username();
+        System.out.println("Enter username: " + username);
+        WebElement usernameField = driver.findElement(By.id("username"));
+        usernameField.clear();
+        usernameField.sendKeys(username);
 
+        return username;
+    }
+
+    public void enterFullName() {
+        String fullName = faker.name().fullName();
+        System.out.println("Enter full name: " + fullName);
         WebElement inputFullName = driver.findElement(By.id("fullname"));
         inputFullName.clear();
         inputFullName.sendKeys(fullName);
+    }
 
+    public void enterEmail() {
+        String email = faker.internet().emailAddress();
+        System.out.println("Enter email: " + email);
         WebElement inputEmail = driver.findElement(By.id("email"));
         inputEmail.clear();
         inputEmail.sendKeys(email);
+    }
 
+    public void enterPhone() {
+        String phone = faker.phoneNumber().phoneNumber();
+        System.out.println("Enter phone number: " + phone);
         WebElement inputPhone = driver.findElement(By.id("phone"));
         inputPhone.clear();
         inputPhone.sendKeys(phone);
+    }
 
-        WebElement iptPassword = driver.findElement(By.id("password"));
-        iptPassword.clear();
-        iptPassword.sendKeys(password);
+    public void enterPassword(String password) {
+        System.out.println("Enter password: " + password);
+        WebElement passwordField = driver.findElement(By.id("password"));
+        passwordField.clear();
+        passwordField.sendKeys(password);
+    }
 
-        WebElement iptConfirmPassword = driver.findElement(By.id("repassword"));
-        iptConfirmPassword.clear();
-        iptConfirmPassword.sendKeys(password);
+    public void enterRePassword(String password) {
+        System.out.println("Enter Re-Password: " + password);
+        WebElement passwordField = driver.findElement(By.id("repassword"));
+        passwordField.clear();
+        passwordField.sendKeys(password);
+    }
 
-        WebElement iptAddress = driver.findElement(By.xpath("//input[@name='address']"));
-        iptAddress.clear();
-        iptAddress.sendKeys(address);
+    public void enterAddress() {
+        String address = faker.address().streetAddress();
+        System.out.println("Enter address: " + address);
+        WebElement addressField = driver.findElement(By.xpath("//input[@name='address']"));
+        addressField.clear();
+        addressField.sendKeys(address);
+    }
 
-        System.out.println("Choose profile image");
+    public void enterImage() {
+        System.out.println("Enter profile image");
         WebElement fileInput = driver.findElement(By.id("file"));
         String imagePath = System.getProperty("user.dir")+ File.separator + "src/test/resources/testdata/profileImage/Picture1.jpg";
         fileInput.sendKeys(imagePath);
+    }
 
-        System.out.println("Click on 'Dang ky' button");
-        WebElement btnDangKy = driver.findElement(By.xpath("//button[@class='btn-regis']"));
-        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", btnDangKy);
-        Thread.sleep(5000);
+    public void clickRegister() {
+        System.out.println("Click btn register");
+        WebElement btnRegister = driver.findElement(By.xpath("//button[@class='btn-regis']"));
+        js.executeScript("arguments[0].click();", btnRegister);
+    }
+
+    @Test(priority = 0)
+    public void DK01_ValidRegister() {
+        initLoginPage();
+        String username = enterUserName();
+        enterFullName();
+        enterEmail();
+        enterPhone();
+
+        String password = faker.internet().password();
+        enterPassword(password);
+        enterRePassword(password);
+
+        enterAddress();
+        enterImage();
+
+        clickRegister();
 
         System.out.println("Verify register successfully, login with account register above");
-        driver.findElement(By.xpath("//h4[contains(text(),'Sign In')]")).isDisplayed();
-        WebElement iptUserNameLogin = driver.findElement(By.id("username"));
-        iptUserNameLogin.clear();
-        iptUserNameLogin.sendKeys(username);
-        WebElement iptPassLogin = driver.findElement(By.id("password"));
-        iptPassLogin.clear();
-        iptPassLogin.sendKeys(password);
+        waitUrlTobe(Constant.LOGIN_URL);
+
+        WebElement usernameField = driver.findElement(By.id("username"));
+        usernameField.clear();
+        usernameField.sendKeys(username);
+
+        WebElement passwordField = driver.findElement(By.id("password"));
+        passwordField.clear();
+        passwordField.sendKeys(password);
+
         driver.findElement(By.xpath("//button[@class='btn-login']")).click();
-        driver.findElement(By.xpath("//li[@class='nav-item']/a[@href='home']")).isDisplayed();
-        
+
+        Assert.assertEquals(driver.getCurrentUrl(), Constant.USER_HOME_URL);
     }
 
     @Test(enabled = true, priority = 1)
-    public void DK02_invalidRegisterusername() throws InterruptedException{
-        System.out.println("Open website");
-        driver.get(Constant.REGISTER_URL);
-        Thread.sleep(5000);
+    public void DK02_invalidRegisterUsername() {
+        initLoginPage();
         
         System.out.println("Bỏ trống trường tên đăng nhập. Nhập các giá trị khác hợp lệ");
         WebElement inputUserName = driver.findElement(By.id("username"));
         inputUserName.clear();
 
-
-        System.out.println("Click on 'Dang ky' button");
-        WebElement btnDangKy = driver.findElement(By.xpath("//button[@class='btn-regis']"));
-        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", btnDangKy);
-
         System.out.println("Verify: Xuất hiện text dưới trường tên đăng nhập: username không được trống");
         WebElement userNameError = driver.findElement(By.xpath("//span[@id='username.errors']"));
         Assert.assertTrue(userNameError.isDisplayed());
-        Assert.assertEquals(userNameError.getText(), "username không được trống");
+        Assert.assertEquals(userNameError.getText(), "Tên đăng nhập không được trống");
     }
 
     @Test(enabled = true, priority = 2)
@@ -108,7 +136,6 @@ public class DangKyTest extends BasicTest{
         System.out.println("Open website");
         driver.get(Constant.REGISTER_URL);
         Thread.sleep(5000);
-        
 
         System.out.println("Bỏ trống trường họ tên. Nhập các giá trị khác hợp lệ");
         WebElement inputFullName = driver.findElement(By.id("fullname"));
@@ -118,8 +145,7 @@ public class DangKyTest extends BasicTest{
         WebElement btnDangKy = driver.findElement(By.xpath("//button[@class='btn-regis']"));
         ((JavascriptExecutor) driver).executeScript("arguments[0].click();", btnDangKy);
 
-  
-        System.out.println("Verify: Xuất hiện text dưới trường họ tên : họ tên không được trống");
+        System.out.println("Verify: Xuất hiện text dưới trường họ tên : Họ tên không được trống");
         WebElement fullNameError = driver.findElement(By.xpath("//span[@id='fullname.errors']"));
         Assert.assertTrue(fullNameError.isDisplayed());
         Assert.assertEquals(fullNameError.getText(), "Họ tên không được trống");
@@ -139,10 +165,10 @@ public class DangKyTest extends BasicTest{
         WebElement btnDangKy = driver.findElement(By.xpath("//button[@class='btn-regis']"));
         ((JavascriptExecutor) driver).executeScript("arguments[0].click();", btnDangKy);
 
-        System.out.println("Verify: Xuất hiện text dưới trường email : email không được trống");
+        System.out.println("Verify: Xuất hiện text dưới trường email : Email không được trống");
         WebElement emailError = driver.findElement(By.xpath("//span[@id='email.errors']"));
         Assert.assertTrue(emailError.isDisplayed());
-        Assert.assertEquals(emailError.getText(), "email không được trống");
+        Assert.assertEquals(emailError.getText(), "Email không được trống");
     }
 
     @Test(enabled = true, priority = 4)
