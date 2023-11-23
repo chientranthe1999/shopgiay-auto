@@ -1,9 +1,9 @@
 package com.shopgiay;
 
-import com.sat.utils.Constant;
+import core.utils.Constant;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import com.sat.utils.BasicTest;
+import core.utils.BasicTest;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.By;
 

@@ -1,0 +1,4 @@
+TC01_Login_Success,Test,admin,111,Pass,Pass
+TC02_LoginInvalid_BlankUserName,Test,,111,Username cannot be empty,
+DN03_LoginInvalid_Empty_Password,Test,admin,,Password cannot be empty,Pass
+DN04_LoginInvalid_Empty_User_Password,Test,,,Username cannot be empty;Password cannot be empty,Pass

@@ -4,10 +4,10 @@
 
 ### Run 1 script
 ```
-mvn clean test -Dtest=com.shopgiay.DangKyTest
-mvn clean test -Dtest=com.shopgiay.DangNhapTest
+mvn clean test -Dtest=com.shopgiay.RegisterTest
+mvn clean test -Dtest=com.shopgiay.LoginTest
 mvn clean test -Dtest=com.shopgiay.EditProfileTest
-mvn clean test -Dtest=com.shopgiay.TaoSanPhamMoiTest
+mvn clean test -Dtest=com.shopgiay.AddNewProductTest
 ```
 
 ### Run many scripts

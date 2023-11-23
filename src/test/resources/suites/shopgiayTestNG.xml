@@ -4,12 +4,12 @@
     <test thread-count="1" parallel="classes" name="DemoTest">
         <parameter name="browser" value="chrome"/>
         <classes>
-            <class name="com.shopgiay.DangKyTest" />
-            <class name="com.shopgiay.DangNhapTest" />
-            <class name="com.shopgiay.DatHangTest" />
+            <class name="com.shopgiay.RegisterTest" />
+            <class name="com.shopgiay.LoginTest" />
+            <class name="com.shopgiay.OrderTest" />
             <class name="com.shopgiay.EditProfileTest" />
             <class name="com.shopgiay.SearchProductTest" />
-            <class name="com.shopgiay.TaoSanPhamMoiTest" />
+            <class name="com.shopgiay.AddNewProductTest" />
         </classes>
     </test>
 </suite> <!-- Suite -->

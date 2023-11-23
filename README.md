@@ -4,11 +4,11 @@
 
 ### Run 1 script
 ```
-mvn clean test -Dtest=com.shopgiay.DangKyTest
-mvn clean test -Dtest=com.shopgiay.DangNhapTest
+mvn clean test -Dtest=com.shopgiay.RegisterTest
+mvn clean test -Dtest=com.shopgiay.LoginTest
 mvn clean test -Dtest=com.shopgiay.EditProfileTest
-mvn clean test -Dtest=com.shopgiay.TaoSanPhamMoiTest
-mvn clean test -Dtest=com.shopgiay.DatHangTest
+mvn clean test -Dtest=com.shopgiay.AddNewProductTest
+mvn clean test -Dtest=com.shopgiay.OrderTest
 mvn clean test -Dtest=com.shopgiay.SearchProductTest
 ```
 
