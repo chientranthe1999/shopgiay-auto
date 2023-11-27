@@ -1,4 +1,9 @@
 TC01_Login_Success,Test,admin,111,Pass,Pass
-TC02_LoginInvalid_BlankUserName,Test,,111,Username cannot be empty,
-DN03_LoginInvalid_Empty_Password,Test,admin,,Password cannot be empty,Pass
-DN04_LoginInvalid_Empty_User_Password,Test,,,Username cannot be empty;Password cannot be empty,Pass
+TC02_BlankUserName,Test,,111,Username cannot be empty,Pass
+TC03_BlankPassword,Test,admin,,Password cannot be empty,Pass
+TC04_BlankUsernamePassword,Test,,,Username cannot be empty;Password cannot be empty,Pass
+TC05_WrongUsername,Test,123123Aadmin,1234,Password or username is incorrect,Pass
+TC06_WrongPassword,Test,admin,1234,Password or username is incorrect,Pass
+TC07_WrongUserNamePassword,Test,admin123,1234,Password or username is incorrect,Pass
+TC08_SpaceUsername,Test,           ,1234,Username cannot be empty,Fail
+TC09_SpaceUsername,Test,     admin      ,111,Username cannot be empty,Pass
