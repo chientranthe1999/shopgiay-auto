@@ -114,11 +114,11 @@ public class RegisterTest extends BasicTest {
 
     public void validateError(String field, String expected) {
         String xpath = "//span[@id='" + field + ".errors']";
-        WebElement userNameError = driver.findElement(By.xpath(xpath));
-        Assert.assertTrue(userNameError.isDisplayed());
+        WebElement error = driver.findElement(By.xpath(xpath));
+        Assert.assertTrue(error.isDisplayed());
 
-        System.out.println("Error message: " + userNameError.getText());
-        Assert.assertEquals(userNameError.getText(), expected);
+        System.out.println("Error message: " + error.getText());
+        Assert.assertEquals(error.getText(), expected);
     }
 
     @Test(priority = 0)

@@ -146,6 +146,15 @@ public class AddNewProductTest extends BasicTest {
         driver.findElement(By.xpath("//a[@class='btn btn-danger']")).click();
     }
 
+    public void validateError(String field, String expected) {
+        String xpath = "//span[@id='" + field + ".errors']";
+        WebElement error = driver.findElement(By.xpath(xpath));
+        Assert.assertTrue(error.isDisplayed());
+
+        System.out.println("Error message: " + error.getText());
+        Assert.assertEquals(error.getText(), expected);
+    }
+
     String username = "admin";
     String password = "111";
 
@@ -190,89 +199,58 @@ public class AddNewProductTest extends BasicTest {
         tenspError.isDisplayed();
         Assert.assertEquals(tenspError.getText(), "Tên sản phẩm không được trống");
     }
-    @Test(priority = 6)
-    public void TC06() {
-        loginAdminRoleAndOpenAddProductPage();
-
-        enterPrice("testPrice");
-        clickAdd();
-
-        WebElement errorMessage = driver.findElement(By.xpath("//span[@id='price.errors']"));
-        errorMessage.isDisplayed();
-        Assert.assertEquals(errorMessage.getText(), "số lượng sản phẩm không được trống");
-    }
     @Test(priority = 7)
     public void TC07() {
         loginAdminRoleAndOpenAddProductPage();
-
-        enterPrice("@#$123");
+        selectSize("36");
         clickAdd();
-
-        WebElement errorMessage = driver.findElement(By.xpath("//span[@id='price.errors']"));
-        errorMessage.isDisplayed();
-        Assert.assertEquals(errorMessage.getText(), "số lượng sản phẩm không được trống");
+        validateError("price", "Giá sản phẩm không được trống");
     }
     @Test(priority = 8)
-    public void TC08() {
+    public void TC08_BlankPrice() {
         loginAdminRoleAndOpenAddProductPage();
-        enterPrice("     ");
+        selectSize("36");
+        enterPrice("            ");
         clickAdd();
 
-        WebElement errorMessage = driver.findElement(By.xpath("//span[@id='price.errors']"));
-        errorMessage.isDisplayed();
-        Assert.assertEquals(errorMessage.getText(), "số lượng sản phẩm không được trống");
+        validateError("price", "Giá sản phẩm không được trống");
+    }
+    @Test(priority = 9)
+    public void TC09_EmptyDescription() {
+        loginAdminRoleAndOpenAddProductPage();
+        selectSize("36");
+        clickAdd();
+
+        validateError("description", "Mô tả không được trống");
     }
 
-    @Test(priority = 9)
-    public void TC09() {
+    @Test(priority = 10)
+    public void TC10() {
         loginAdminRoleAndOpenAddProductPage();
+        selectSize("36");
+        enterDescription("                   ");
         clickAdd();
-        WebElement errorMessage = driver.findElement(By.xpath("//span[@id='price.errors']"));
-        errorMessage.isDisplayed();
-        Assert.assertEquals(errorMessage.getText(), "số lượng sản phẩm không được trống");
+
+        validateError("description", "Mô tả không được trống");
     }
     
-    @Test(priority = 6)
-    public void SP07_AddInvalidProductAnhphu() throws InterruptedException {
-        System.out.println("Thêm sản phẩm không thành công: Không chọn file ảnh phụ");
-        System.out.println("1. Đăng nhập bằng account admin");
-        driver.get(Constant.LOGIN_URL);
-        Thread.sleep(3000);
-
-        System.out.println("Enter valid username & password");
-        WebElement iptUserNameLogin = driver.findElement(By.id("username"));
-        iptUserNameLogin.clear();
-        iptUserNameLogin.sendKeys(username);
-
-        WebElement iptPassLogin = driver.findElement(By.id("password"));
-        iptPassLogin.clear();
-        iptPassLogin.sendKeys(password);
-
-        System.out.println("Click on 'Login' button");
-        driver.findElement(By.xpath("//button[@class='btn-login']")).click();
-        Assert.assertEquals(driver.getCurrentUrl(), Constant.ADMIN_HOME_URL);
-
-        System.out.println("2. Chọn Sản phẩm");
-        driver.findElement(By.xpath("//span[@class='nav_name' and contains(text(),'Sản phẩm')]")).click();
-
-        System.out.println("3. Chọn Thêm mới");
-        driver.findElement(By.xpath("//a[@href='addproduct']")).click();
-        driver.findElement(By.xpath("//p[contains(text(),'Thêm/cập nhật sản phẩm')]")).isDisplayed();
-
-        System.out.println("4. Để trống không chọn file ảnh");
-        Select sizeDropdown = new Select(driver.findElement(By.name("listcolor")));
-        sizeDropdown.selectByVisibleText("38");
-
-        System.out.println("5. Chọn button 'Thêm/cập nhật sản phẩm'");
-        WebElement addProductBtn = driver.findElement(By.xpath("//button[contains(text(),'Thêm/ cập nhật sản phẩm')]"));
-        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", addProductBtn);
-        Thread.sleep(2000);
-
-        System.out.println("Verify: Xuất hiện text dưới ảnh chi tiết: 'file khong duoc de trong'");
-        WebElement anhNenError = driver.findElement(By.xpath("//span[@id='anhphu.errors']"));
-        anhNenError.isDisplayed();
-        Assert.assertEquals(anhNenError.getText(), "file khong duoc de trong");
+    @Test(priority = 19)
+    public void TC19_SpaceQuantity() throws InterruptedException {
+        loginAdminRoleAndOpenAddProductPage();
+        selectSize("36");
+        enterPrice("         ");
+        clickAdd();
+        validateError("quantity", "Số lượng sản phẩm không được trống");
     }
+
+    @Test(priority = 20)
+    public void TC20_BlankQuantity() throws InterruptedException {
+        loginAdminRoleAndOpenAddProductPage();
+        selectSize("36");
+        clickAdd();
+        validateError("quantity", "Số lượng sản phẩm không được trống");
+    }
+
     @Test(priority = 7)
     public void SP08_AddInvalidProductMota() throws InterruptedException {
         System.out.println("Thêm sản phẩm không thành công: Không nhập mô tả");
