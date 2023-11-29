@@ -6,7 +6,6 @@ import org.testng.annotations.Test;
 import core.utils.BasicTest;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.support.ui.Select;
 
 import java.io.File;
@@ -57,7 +56,7 @@ public class AddNewProductTest extends BasicTest {
     }
 
     public void enterPrice() {
-        enterPrice(Double.toString(faker.random().nextDouble()));
+        enterPrice(Double.toString(Math.ceil(Math.random() * 100000)));
     }
 
     public void enterPrice(String price) {
@@ -91,10 +90,14 @@ public class AddNewProductTest extends BasicTest {
         iptQuantity.sendKeys(quantity);
     }
 
-    public void enterProductImage() {
+    public void enterDetailProductImage() {
+        enterDetailProductImage("productDetails.jpg");
+    }
+
+    public void enterDetailProductImage(String fileName) {
         System.out.println("Choose product details image");
         WebElement productDetailsFile = driver.findElement(By.name("anhphu"));
-        String productDetailsPath = System.getProperty("user.dir")+ File.separator + "src/test/resources/testdata/product/productDetails.jpg";
+        String productDetailsPath = System.getProperty("user.dir")+ File.separator + "src/test/resources/testdata/product/" + fileName;
         productDetailsFile.sendKeys(productDetailsPath);
     }
 
@@ -119,9 +122,13 @@ public class AddNewProductTest extends BasicTest {
     }
 
     public void enterPrdMainImage() {
-        System.out.println("Choose product image'");
+        enterPrdMainImage("product1.jpg");
+    }
+
+    public void enterPrdMainImage(String fileName) {
+        System.out.println("Choose product image");
         WebElement anhNenFile = driver.findElement(By.name("anhnen"));
-        String andNenPath = System.getProperty("user.dir")+ File.separator + "src/test/resources/testdata/product/product1.jpg";
+        String andNenPath = System.getProperty("user.dir")+ File.separator + "src/test/resources/testdata/product/" + fileName;
         anhNenFile.sendKeys(andNenPath);
     }
 
@@ -166,7 +173,7 @@ public class AddNewProductTest extends BasicTest {
         String category = "giày thể thao";
         String brand = "nike";
 
-        enterProductImage();
+        enterDetailProductImage();
         String prdName = enterPrdName();
         enterPrice();
         enterQuantity();
@@ -225,7 +232,7 @@ public class AddNewProductTest extends BasicTest {
     }
 
     @Test(priority = 10)
-    public void TC10() {
+    public void TC10_EmptyDescription() {
         loginAdminRoleAndOpenAddProductPage();
         selectSize("36");
         enterDescription("                   ");
@@ -251,45 +258,57 @@ public class AddNewProductTest extends BasicTest {
         validateError("quantity", "Số lượng sản phẩm không được trống");
     }
 
-    @Test(priority = 7)
-    public void SP08_AddInvalidProductMota() throws InterruptedException {
-        System.out.println("Thêm sản phẩm không thành công: Không nhập mô tả");
-        System.out.println("1. Đăng nhập bằng account admin");
-        driver.get(Constant.LOGIN_URL);
-        Thread.sleep(3000);
+    @Test(priority = 21)
+    public void TC21_BlankMainPicture() {
+        loginAdminRoleAndOpenAddProductPage();
 
-        System.out.println("Enter valid username & password");
-        WebElement iptUserNameLogin = driver.findElement(By.id("username"));
-        iptUserNameLogin.clear();
-        iptUserNameLogin.sendKeys(username);
+        enterPrice();
+        enterPrdName();
+        enterQuantity();
+        enterDescription();
+        selectSize("36");
+        clickAdd();
+        validateError("anhnen", "Ảnh sản phẩm không được để trống");
+    }
 
-        WebElement iptPassLogin = driver.findElement(By.id("password"));
-        iptPassLogin.clear();
-        iptPassLogin.sendKeys(password);
+    @Test(priority = 22)
+    public void TC22_WrongMainPictureFormat() {
+        loginAdminRoleAndOpenAddProductPage();
 
-        System.out.println("Click on 'Login' button");
-        driver.findElement(By.xpath("//button[@class='btn-login']")).click();
-        Assert.assertEquals(driver.getCurrentUrl(), Constant.ADMIN_HOME_URL);
+        enterPrice();
+        enterPrdName();
+        enterQuantity();
+        enterDescription();
+        selectSize("36");
+        enterPrdMainImage("image.txt");
+        clickAdd();
+        validateError("anhnen", "Ảnh sản phẩm phải ở định dạng png, jpg, jpeg");
+    }
 
-        System.out.println("2. Chọn Sản phẩm");
-        driver.findElement(By.xpath("//span[@class='nav_name' and contains(text(),'Sản phẩm')]")).click();
+    @Test(priority = 23)
+    public void TC23_BlankMainPicture() {
+        loginAdminRoleAndOpenAddProductPage();
 
-        System.out.println("3. Chọn Thêm mới");
-        driver.findElement(By.xpath("//a[@href='addproduct']")).click();
-        driver.findElement(By.xpath("//p[contains(text(),'Thêm/cập nhật sản phẩm')]")).isDisplayed();
+        enterPrice();
+        enterPrdName();
+        enterQuantity();
+        enterDescription();
+        selectSize("36");
+        clickAdd();
+        validateError("anhphu", "Ảnh chi tiết sản phẩm không được để trống");
+    }
 
-        System.out.println("4. Để trống không chọn file ảnh");
-        Select sizeDropdown = new Select(driver.findElement(By.name("listcolor")));
-        sizeDropdown.selectByVisibleText("38");
+    @Test(priority = 24)
+    public void TC24_WrongMainPictureFormat() {
+        loginAdminRoleAndOpenAddProductPage();
 
-        System.out.println("5. Chọn button 'Thêm/cập nhật sản phẩm'");
-        WebElement addProductBtn = driver.findElement(By.xpath("//button[contains(text(),'Thêm/ cập nhật sản phẩm')]"));
-        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", addProductBtn);
-        Thread.sleep(2000);
-
-        System.out.println("Verify: Xuất hiện text dưới mô tả: 'Mô tả không được trống'");
-        WebElement anhNenError = driver.findElement(By.xpath("//span[@id='description.errors']"));
-        anhNenError.isDisplayed();
-        Assert.assertEquals(anhNenError.getText(), "Mô tả không được trống");
+        enterPrice();
+        enterPrdName();
+        enterQuantity();
+        enterDescription();
+        selectSize("36");
+        enterDetailProductImage("image.txt");
+        clickAdd();
+        validateError("anhphu", "Ảnh phải ở định dạng png, jpg, jpeg");
     }
 }
